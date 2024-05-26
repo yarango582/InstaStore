@@ -1,4 +1,21 @@
-# InstaStore
+# InstaStore API
+
+## Descripción
+Esta API proporciona servicios para encontrar tiendas cercanas y gestionar logs de operaciones.
+
+## Endpoints
+- **GET /api/logs**: Obtener todos los logs con paginación.
+- **GET /api/stores/closest**: Obtener la tienda más cercana basado en coordenadas.
+- **GET /api/stores**: Obtener todas las tiendas con paginación.
+
+## Documentación de la API
+La documentación completa de la API está disponible en [Swagger](https://instastore.zeabur.app/api-docs/).
+
+## Instalación
+1. Clonar el repositorio.
+2. Ejecutar `npm install` para instalar las dependencias.
+3. Configurar las variables de entorno en un archivo `.env`.
+4. Ejecutar `npm run dev` para iniciar el servidor en modo desarrollo.
 
 ## Preguntas
 
@@ -65,3 +82,4 @@ InstaStore es un microservicio diseñado para seleccionar la tienda de convenien
 |                 |     |  Microservice       |     |   ( MongoDB )        |
 |                 |     |  (Node.js/Express)  |     |                      |
 +-----------------+     +---------------------+     +----------------------+
+```
