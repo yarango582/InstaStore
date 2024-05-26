@@ -22,6 +22,18 @@
    - **Mejora**: Implementar un manejo de errores más robusto.
    - **Razón**: Proporciona mensajes de error más claros y detallados, lo que facilita la depuración y mejora la experiencia del usuario.
 
+6. **Autenticación y Autorización**:
+   - **Mejora**: Implementar autenticación y autorización.
+   - **Razón**: Aunque actualmente no manejamos datos sensibles, la autenticación y autorización garantizan que solo los usuarios legítimos puedan acceder a las funcionalidades del servicio, previniendo el uso indebido y abusos del servicio.
+
+7. **Cifrado de Datos**:
+   - **Mejora**: Implementar cifrado de datos en tránsito y en reposo.
+   - **Razón**: Asegura la privacidad e integridad de los datos. Aunque actualmente no manejamos datos sensibles, es una buena práctica de seguridad que prepara el sistema para futuras expansiones.
+
+8. **Tasa de Límite**:
+   - **Mejora**: Limitar el número de solicitudes permitidas a la API.
+   - **Razón**: Previene abusos y ataques de denegación de servicio, asegurando la disponibilidad y el rendimiento de la API para todos los usuarios.
+
 ## ¿Qué compromisos harías para cumplir con el tiempo? ¿Qué harías la próxima vez para entregar más y sacrificar menos?
 
 1. **Priorizar Funcionalidades Esenciales**:
@@ -41,8 +53,17 @@
 1. **Validación y Sanitización de Entradas**:
    - **Razón**: Se implementan controles para asegurar que los datos ingresados por los usuarios sean válidos y seguros, lo que previene ataques de inyección.
 
-2. **Manejo de Errores Seguro**:
+2. **Autenticación y Autorización**:
+   - **Razón**: Aunque actualmente no se maneja autenticación, se reconoce la importancia de implementarla para prevenir el uso indebido del servicio.
+
+3. **Manejo de Errores Seguro**:
    - **Razón**: Los errores se manejan de manera que no revelan detalles del sistema que podrían ser explotados por atacantes.
+
+4. **Cifrado de Datos**:
+   - **Razón**: Actualmente no ciframos los datos, pero la implementación de cifrado en tránsito y en reposo sería una mejora significativa para asegurar la privacidad y la integridad de los datos en el futuro.
+
+5. **Tasa de Límite**:
+   - **Razón**: Se ha implementado la limitación de peticiones para proteger la API contra abusos y ataques de denegación de servicio, asegurando la disponibilidad y el rendimiento del servicio.
 
 ## ¿Qué harías para medir el comportamiento de tu producto en un entorno de producción?
 
