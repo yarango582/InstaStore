@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { getClosestStore } from '../controllers/store.controller';
-import { findClosestStore } from '../services/store.service';
+import { getClosestStoreController } from '../controllers/store.controller';
+import { findClosestStoreService } from '../services/store.service';
 import Log from '../models/log.model';
 
 // Importación de jest desde @jest/globals
@@ -33,11 +33,11 @@ describe('getClosestStore', () => {
 
     it('should return the closest store', async () => {
         const store = { storeId: '1', storeName: 'Store A', isOpen: true, coordinates: [10.123, 20.456] };
-        (findClosestStore as jest.Mock).mockResolvedValue(store as never);
+        (findClosestStoreService as jest.Mock).mockResolvedValue(store as never);
 
-        await getClosestStore(req, res);
+        await getClosestStoreController(req, res);
 
-        expect(findClosestStore).toHaveBeenCalledWith(10.123, 20.456);
+        expect(findClosestStoreService).toHaveBeenCalledWith(10.123, 20.456);
         expect(Log.prototype.save).toHaveBeenCalled();
         expect(res.json).toHaveBeenCalledWith(store);
     });
@@ -45,7 +45,7 @@ describe('getClosestStore', () => {
     it('should return an error if latitude or longitude are missing', async () => {
         req.query = {};
 
-        await getClosestStore(req, res);
+        await getClosestStoreController(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({ error: 'Latitude and longitude are required' });
@@ -53,9 +53,9 @@ describe('getClosestStore', () => {
 
     it('should return an error if an unknown error occurs', async () => {
         const error = new Error('Unknown error');
-        (findClosestStore as jest.Mock).mockRejectedValue(error as never);
+        (findClosestStoreService as jest.Mock).mockRejectedValue(error as never);
 
-        await getClosestStore(req, res);
+        await getClosestStoreController(req, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ error: error.message || 'Unknown error' });

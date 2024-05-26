@@ -17,6 +17,7 @@
     "express": "^4.19.2",
     "logform": "^2.6.0",
     "mongoose": "^8.4.0",
+    "node-cache": "^5.1.2",
     "winston": "^3.13.0"
   },
   "devDependencies": {

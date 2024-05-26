@@ -1,4 +1,4 @@
-import { findClosestStore } from '../services/store.service';
+import { findClosestStoreService } from '../services/store.service';
 import Store from '../models/store.model';
 import { jest } from '@jest/globals';
 
@@ -22,7 +22,7 @@ describe('findClosestStore', () => {
             exec: jest.fn().mockResolvedValueOnce(store as never)
         });
 
-        const result = await findClosestStore(10.123, 20.456);
+        const result = await findClosestStoreService(10.123, 20.456);
 
         expect(Store.findOne).toHaveBeenCalledWith({
             location: {
@@ -48,6 +48,6 @@ describe('findClosestStore', () => {
             exec: jest.fn().mockResolvedValueOnce(null as never)
         });
 
-        await expect(findClosestStore(10.123, 20.456)).rejects.toThrow('No stores found');
+        await expect(findClosestStoreService(10.123, 20.456)).rejects.toThrow('No stores found');
     });
 });

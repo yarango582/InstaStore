@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { getClosestStore } from '../controllers/store.controller';
+import { getClosestStoreController, getAllStoresController } from '../controllers/store.controller';
 
 const router: Router = Router();
 
-router.get('/closest', getClosestStore);
+router.get('/closest', getClosestStoreController);
+router.get('/', getAllStoresController)
 
 export default router;
