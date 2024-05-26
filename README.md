@@ -16,7 +16,21 @@
 
 ### Respuestas
 
-1.
+1. y 2. El ideal de la prueba es que definas el comportamiento de estos bajo la solución que propongas, puedes escoger la que te parezca la más adecuada. A modo de apoyo, te redirijo a los campos de "coordinates" y "isOpen" que refiere el challenge para la respuesta.
+
+2. y 4. A nivel de logging, la idea es que definas la información que consideres absolutamente necesaria y te permita el "debug" exitoso de los distintos casos que puedan surgir en la ejecución de tu solución. No hay herramientas predefinidas más que las mencionadas en el challenge, lo demás queda a tu criterio.
+
+3. y 6. El modelo de datos es propuesto por ti, puedes definir el que consideres más apropiado para resolver el challenge de la mejor manera. La actividad de actualización queda a decisión tuya.
+
+4. Puedes usar el formato que desees
+
+5. Aquí quisiera referirme al challenge: "... responder a códigos de error que tienen sentido para el caso". Implicando esto que los defines tú de acuerdo al comportamiento de tu solución.
+
+6. No hay requisitos específicos, puedes definir los que mejor te parezca. Adicionalmente , ten en cuenta qué tanto beneficio vs costo tiene cada opción y considera la más apropiada teniendo en cuenta el valor que tu solución ofrece al challenge.
+
+7.  No es un requisito, pero siempre es bienvenido.
+
+8.  Por favor, inclúyelos.
 
 ---
 
@@ -36,7 +50,7 @@ InstaStore es un microservicio diseñado para seleccionar la tienda de convenien
 2. **Base de Datos**:
     - Almacena los datos de las tiendas (ID, nombre, estado, coordenadas).
     - Almacena los logs de las llamadas al endpoint.
-    - Se recomienda usar una base de datos SQL como PostgreSQL.
+    - Se selecciono MongoDB como motor de base de datos por su rendimiento.
 
 3. **Módulo de Logging**:
     - Registra todas las solicitudes y respuestas del endpoint.
@@ -48,6 +62,6 @@ InstaStore es un microservicio diseñado para seleccionar la tienda de convenien
 +-----------------+     +---------------------+     +----------------------+
 |                 |     |                     |     |                      |
 |     Clients     +----->    InstaStore       +----->    Database          |
-|                 |     |  Microservice       |     |  (PostgreSQL)        |
+|                 |     |  Microservice       |     |   ( MongoDB )        |
 |                 |     |  (Node.js/Express)  |     |                      |
 +-----------------+     +---------------------+     +----------------------+
