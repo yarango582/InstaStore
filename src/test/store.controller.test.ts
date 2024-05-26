@@ -1,63 +1,113 @@
 import { Request, Response } from 'express';
-import { getClosestStoreController } from '../controllers/store.controller';
-import { findClosestStoreService } from '../services/store.service';
-import Log from '../models/log.model';
-
-// Importación de jest desde @jest/globals
+import { getClosestStoreController, getAllStoresController } from '../controllers/store.controller';
+import { findClosestStoreService, findAllStoresService } from '../services/store.service';
+import { HttpCodes } from '../enums/httpCodes.enum';
 import { jest } from '@jest/globals';
 
-// Mock de los módulos
-jest.mock('../services/store.service');
-jest.mock('../models/log.model');
+jest.mock('../services/store.service', () => ({
+  findClosestStoreService: jest.fn(),
+  findAllStoresService: jest.fn(),
+}));
 
-describe('getClosestStore', () => {
-    let req: Request;
-    let res: Response;
+describe('getClosestStoreController', () => {
+  let req: Request;
+  let res: Response;
 
-    beforeEach(() => {
-        req = {
-            query: {
-                lat: '10.123',
-                lon: '20.456',
-            },
-        } as unknown as Request;
-        res = {
-            status: jest.fn().mockReturnThis(),
-            json: jest.fn(),
-        } as unknown as Response;
+  beforeEach(() => {
+    req = {
+      query: {
+        lat: '1.234',
+        lon: '5.678',
+      },
+    } as unknown as Request;
+
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as unknown as Response;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should handle missing latitude and longitude', async () => {
+    req.query = {};
+
+    await getClosestStoreController(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(HttpCodes.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      error: 'Latitude and longitude are required',
+      message: 'error',
+      statusCode: HttpCodes.BAD_REQUEST,
     });
+  });
 
-    afterEach(() => {
-        jest.clearAllMocks();
+  it('should handle errors', async () => {
+    const error = new Error('Test error');
+    (findClosestStoreService as jest.Mock).mockRejectedValue(error as never);
+
+    await getClosestStoreController(req, res);
+
+    expect(findClosestStoreService).toHaveBeenCalledWith(1.234, 5.678);
+    expect(res.status).toHaveBeenCalledWith(HttpCodes.INTERNAL_SERVER_ERROR);
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'Error finding store',
+      error: error.message || 'Unknown error',
+      statusCode: HttpCodes.INTERNAL_SERVER_ERROR,
     });
+  });
+});
 
-    it('should return the closest store', async () => {
-        const store = { storeId: '1', storeName: 'Store A', isOpen: true, coordinates: [10.123, 20.456] };
-        (findClosestStoreService as jest.Mock).mockResolvedValue(store as never);
+describe('getAllStoresController', () => {
+  let req: Request;
+  let res: Response;
 
-        await getClosestStoreController(req, res);
+  beforeEach(() => {
+    req = {
+      query: {
+        page: '1',
+      },
+    } as unknown as Request;
 
-        expect(findClosestStoreService).toHaveBeenCalledWith(10.123, 20.456);
-        expect(Log.prototype.save).toHaveBeenCalled();
-        expect(res.json).toHaveBeenCalledWith(store);
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as unknown as Response;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return all stores', async () => {
+    const stores = [{ id: 1, name: 'Store 1' }, { id: 2, name: 'Store 2' }];
+    (findAllStoresService as jest.Mock).mockResolvedValue(stores as never);
+
+    await getAllStoresController(req, res);
+
+    expect(findAllStoresService).toHaveBeenCalledWith(1);
+    expect(res.status).toHaveBeenCalledWith(HttpCodes.OK);
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'Stores found',
+      statusCode: HttpCodes.OK,
+      data: stores,
     });
+  });
 
-    it('should return an error if latitude or longitude are missing', async () => {
-        req.query = {};
+  it('should handle errors', async () => {
+    const error = new Error('Test error');
+    (findAllStoresService as jest.Mock).mockRejectedValue(error as never);
 
-        await getClosestStoreController(req, res);
+    await getAllStoresController(req, res);
 
-        expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.json).toHaveBeenCalledWith({ error: 'Latitude and longitude are required' });
+    expect(findAllStoresService).toHaveBeenCalledWith(1);
+    expect(res.status).toHaveBeenCalledWith(HttpCodes.INTERNAL_SERVER_ERROR);
+    expect(res.json).toHaveBeenCalledWith({
+      error: error.message || 'Unknown error',
+      message: 'Error finding stores',
+      statusCode: HttpCodes.INTERNAL_SERVER_ERROR,
     });
-
-    it('should return an error if an unknown error occurs', async () => {
-        const error = new Error('Unknown error');
-        (findClosestStoreService as jest.Mock).mockRejectedValue(error as never);
-
-        await getClosestStoreController(req, res);
-
-        expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith({ error: error.message || 'Unknown error' });
-    });
+  });
 });
