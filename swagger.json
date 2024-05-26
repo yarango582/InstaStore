@@ -1,0 +1,250 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "InstaStore API",
+        "description": "API Documentation for InstaStore",
+        "version": "1.0.0"
+    },
+    "host": "instastore.zeabur.app",
+    "basePath": "/api/v1",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/logs": {
+            "get": {
+                "summary": "Get all logs",
+                "description": "Returns a list of logs with pagination",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "Page number for pagination"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logs found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                },
+                                "statusCode": {
+                                    "type": "integer"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "endpoint": {
+                                                "type": "string"
+                                            },
+                                            "request": {
+                                                "type": "object"
+                                            },
+                                            "response": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error finding logs",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "statusCode": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stores/closest": {
+            "get": {
+                "summary": "Get the closest store",
+                "description": "Returns the closest store based on the given latitude and longitude",
+                "parameters": [
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "required": true,
+                        "type": "number",
+                        "description": "Latitude of the location"
+                    },
+                    {
+                        "name": "lon",
+                        "in": "query",
+                        "required": true,
+                        "type": "number",
+                        "description": "Longitude of the location"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Store found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                },
+                                "statusCode": {
+                                    "type": "integer"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "storeId": {
+                                            "type": "string"
+                                        },
+                                        "storeName": {
+                                            "type": "string"
+                                        },
+                                        "isOpen": {
+                                            "type": "boolean"
+                                        },
+                                        "coordinates": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "statusCode": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error finding store",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "statusCode": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stores": {
+            "get": {
+                "summary": "Get all stores",
+                "description": "Returns a list of stores with pagination",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "Page number for pagination"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Stores found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                },
+                                "statusCode": {
+                                    "type": "integer"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "storeId": {
+                                                "type": "string"
+                                            },
+                                            "storeName": {
+                                                "type": "string"
+                                            },
+                                            "isOpen": {
+                                                "type": "boolean"
+                                            },
+                                            "coordinates": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error finding stores",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "statusCode": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
