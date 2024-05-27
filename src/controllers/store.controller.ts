@@ -3,6 +3,7 @@ import { findClosestStoreService, findAllStoresService } from '../services/store
 import { IOperationResult } from '../interfaces/response.interface';
 import Log from '../models/log.model';
 import { HttpCodes } from '../enums/httpCodes.enum';
+import logger from '../utils/logger/logger.util';
 
 export const getClosestStoreController = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -24,7 +25,8 @@ export const getClosestStoreController = async (req: Request, res: Response): Pr
       response: store,
       timestamp: new Date(),
     });
-    await log.save();
+    log.save()
+      .catch((err) => logger.error(`Failed to save log request: ${err}`));
 
     res.status(HttpCodes.OK).json({
       message: 'Store found',
