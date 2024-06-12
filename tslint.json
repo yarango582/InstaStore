@@ -1,0 +1,34 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "max-line-length": [true, { "limit": 120 }],
+    "new-parens": true,
+    "no-arg": true,
+    "no-bitwise": false,
+    "no-conditional-assignment": true,
+    "no-consecutive-blank-lines": false,
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    },
+    "forin": false,
+    "trailing-comma": false,
+    "prefer-for-of": true,
+    "no-empty": false,
+    "no-angle-bracket-type-assertion": false,
+    "no-unused-expression": true,
+    "no-namespace": false,
+    "no-var-requires": false,
+    "ban-types": [
+      true,
+      ["String", "Use `string` instead"],
+      ["Boolean", "Use `boolean` instead"],
+      ["Number", "Use `number` instead"],
+      ["Symbol", "Use `symbol` instead"],
+      ["Object", "Avoid using the `Object` type. Did you mean `object`?"]
+    ]
+  },
+  "rulesDirectory": []
+}
